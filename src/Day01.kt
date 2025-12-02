@@ -9,7 +9,6 @@ fun main() {
             val direction = if (it[0] == 'R') +1 else -1
             val distance = it.substring(1).toInt()
             position = (position + (direction * distance)).mod(size)
-//            position = ((position + direction * distance) % 100 + 100) % 100
             if (position == target) hits += 1
         }
         return hits
@@ -30,13 +29,21 @@ fun main() {
     }
 
     val testInput = readInput("Day01_test")
-    part1(testInput).println()
-    check(part1(testInput) == 3)
-
     val input = readInput("Day01")
-    part1(input).println()
 
-    part2(testInput).println()
-    check(part2(testInput) == 6)
-    part2(input).println()
+    val t1 = part1(testInput)
+    t1.println()
+    check(t1 == 3)
+
+    val r1 = part1(input)
+    r1.println()
+    check(r1 == 995)
+
+    val t2 = part2(testInput)
+    t2.println()
+    check(t2 == 6)
+
+    val r2 = part2(input)
+    r2.println()
+    check(r2 == 5847)
 }

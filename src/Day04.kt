@@ -1,5 +1,5 @@
 fun main() {
-    data class Vector(val input: List<String>) {
+    open class Vector(val input: List<String>) {
         val width = input[0].length
         val height = input.size
         fun at(x: Int, y: Int): Char? = if (y in 0..<height && x in 0..<width) input[y][x] else null
@@ -17,23 +17,8 @@ fun main() {
         fun printVector() = input.forEach { println(it) }
     }
 
-    data class MutableVector(var input: MutableList<String>) {
-        val width = input[0].length
-        val height = input.size
-        fun at(x: Int, y: Int): Char? = if (y in 0..<height && x in 0..<width) input[y][x] else null
-        fun write(x: Int, y: Int, c: Char) { input[y] = input[y].replaceRange(x, x + 1, c.toString()) }
-        fun neighborsCardinal(x: Int, y: Int) = listOf(at(x, y - 1), at(x + 1, y), at(x, y + 1),  at(x - 1, y))
-        fun neighborsDiagonal(x: Int, y: Int) = listOf(at(x - 1, y - 1), at(x - 1, y + 1), at(x + 1, y + 1), at(x + 1, y - 1))
-        fun neighbors(x: Int, y: Int) = neighborsCardinal(x, y) + neighborsDiagonal(x, y)
-        fun neighborsOccupied(x: Int, y: Int, c: Char) = neighbors(x, y).count { it == c }
-        fun iterateAll() = sequence {
-            for (y in 0..<height) {
-                for (x in 0..<width) {
-                    yield(x to y)
-                }
-            }
-        }
-        fun printVector() = input.forEach { println(it) }
+    class MutableVector(private val mutableInput: MutableList<String>) : Vector(mutableInput) {
+        fun write(x: Int, y: Int, c: Char) { mutableInput[y] = mutableInput[y].replaceRange(x, x + 1, c.toString()) }
     }
 
     val day = "04"
@@ -50,13 +35,9 @@ fun main() {
         var count = 0
 
         do {
-//            vector.printVector()
-//            println("---")
             val locationsWithItems = vector.iterateAll().filter { (x, y) -> vector.at(x, y) == '@' }
             val removables = locationsWithItems.filter { (x, y) -> vector.neighborsOccupied(x, y, '@') < 4 }.toList()
-//            println("removables: ${removables}")
             val changes = removables.size
-//            println("changes: $changes")
             removables.forEach { (x, y) -> vector.write(x, y, 'x') }
             count += changes
         } while(changes > 0)

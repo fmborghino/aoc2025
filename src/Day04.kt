@@ -49,18 +49,18 @@ fun main() {
     val input = readInput("Day${day}")
 
     val t1 = part1(testInput)
-    t1.println()
+    t1.log("t1 ")
     check(t1 == 13)
 
     val r1 = part1(input)
-    r1.println()
+    r1.log("r1 ")
     check(r1 == 1424)
 
     val t2 = part2(testInput)
-    t2.println()
+    t2.log("t2 ")
     check(t2 == 43)
 
     val r2 = part2(input)
-    r2.println()
+    r2.log("r2 ")
     check(r2 == 8727)
 }

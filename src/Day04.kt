@@ -36,6 +36,7 @@ fun main() {
 
         do {
             val locationsWithItems = vector.iterateAll().filter { (x, y) -> vector.at(x, y) == '@' }
+            // need toList() here to avoid a lazy evaluation + mutation problem when we mutate `removables`
             val removables = locationsWithItems.filter { (x, y) -> vector.neighborsOccupied(x, y, '@') < 4 }.toList()
             val changes = removables.size
             removables.forEach { (x, y) -> vector.write(x, y, 'x') }
